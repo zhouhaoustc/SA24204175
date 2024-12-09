@@ -1,0 +1,151 @@
+---
+title: "Homework1"
+author: "Hao Zhou"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Homework1}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Example
+
+## Example 1
+
+构造一个列表`score`，存放学生李明的成绩，如下：
+
+```{r}
+score <- list(name="李明", id = "PB1", age=19, scores=c(85, 76, 90))
+```
+
+1. 提取年龄，并以今年为记录时间计算其出生年份；
+```{r}
+score[[3]]
+d<-Sys.time()
+p<-as.POSIXlt(d)
+cat(1900+p$year-score[[3]])
+```
+
+2. 最后一个元素展示的是语数英三科的成绩，提取出来记为`y`, 并计算其平均成绩；
+```{r}
+y<-score[[4]]
+mean(y)
+```
+
+3. 增加一个元素记录是否是优秀学生，其中优秀学生的定义为平均成绩大于85分。
+```{r}
+score$excellent<-'NO'
+score
+```
+
+## Example 2
+
+covid19.csv文档里面记录了某地区新冠病人的住院信息。
+
+1. 把covid19.csv读入到数据框`pat1`中，输出其列名和前三行的内容；
+```{r}
+pat1<-read.csv("covid19.csv",header = TRUE,na.strings = "")
+names(pat1)
+head(pat1,n=3)
+```
+
+2. 找出性别中有缺失值的行并将其去掉，去掉后的数据框仍然记为`pat1`；
+```{r}
+pat1[is.na(pat1$性别),]
+```
+```{r}
+pat1<-pat1[-which(is.na(pat1$性别)),]
+pat1
+```
+
+3. 分别按性别、入院日期汇总数据并输出不同性别的入院人数、不同入院日期的入院人数；
+```{r}
+summary(pat1$性别)
+table(pat1$性别)
+```
+```{r}
+summary(pat1$入院时间)
+table(pat1$入院时间)
+```
+
+4. 分性别计算平均年龄、最大年龄和最小年龄；
+```{r}
+aggregate(pat1$年龄,by=pat1["性别"],mean)
+aggregate(pat1$年龄,by=pat1["性别"],max)
+aggregate(pat1$年龄,by=pat1["性别"],min)
+```
+
+5. 把年龄分成1—10, 11—20, ……, 70以上各段， 保存为“年龄段”变量，并将其加入到数据框`pat1`中；
+```{r}
+k<-as.data.frame(cut(pat1$年龄,c(1,10,20,30,40,50,60,70,100)))
+colnames(k)<-"年龄段"
+pat1<-cbind(pat1,k)
+pat1
+```
+
+6. 用年龄段和性别交叉汇总发病人数，并计算其占总人数的百分比(结果乘以100并保留一位小数)， 保存到“年龄性别分布.csv”中 要求将每个年龄段的男性病人数、女性发病人数存为一行。
+```{r}
+m<-table(pat1[,"年龄段"],pat1[,"性别"])
+m
+m1<-round(m/nrow(pat1)*100,1)
+m1
+write.csv(m,file="年龄性别分布.csv")
+```
+
+covid19-3.csv文档记录病人入院前的基本信息。
+
+7. 把covid19-3.csv读入到数据框`pat2`中，输出其列名和前三行的内容；
+```{r}
+pat2<-read.csv("covid19-3.csv",header = TRUE,na.strings = "")
+names(pat2)
+head(pat2,n=3)
+```
+
+8. 合并`pat1`和`pat2`，并将合并后的数据框定义为`pat`，要求合并后保留pat1所有的行;
+```{r}
+pat<-merge(pat1,pat2,by.x="序号",by.y = "序号",all.x = TRUE)
+pat
+```
+
+9. 显示抽烟、年龄超过40且住院时间超过10天的病人分型和年龄。
+```{r}
+pat[,"入院时间"] <- as.Date(as.character(pat[,"入院时间"]), format = "%Y%m%d")
+pat[,"出院时间"] <- as.Date(as.character(pat[,"出院时间"]), format = "%Y%m%d")
+pat[pat$住院时间<0,"入院时间"]<-as.Date("2020-02-05")
+pat[,"住院时间"] <- as.numeric(pat[,"出院时间"] - pat[,"入院时间"]) + 1
+pat[pat$吸烟=="有"&pat$年龄>40&pat$住院时间>10,c(2,4)]
+```
+
+## Example 3
+
+1.假设我们通过如下命令产生了一组数据：
+    
+```{r}
+n = 50
+set.seed(0)
+x = runif(n, min=-2, max=2)
+y = x^3 + rnorm(n)
+```
+
+
+2.以`x`作为横轴，`y`作为纵轴作折线图。
+```{r}
+u=sort(x)
+v=y[order(x)]
+plot(u, v, xlab="x",ylab = "y",type='l')
+```
+
+3. 以`x`作为横轴，`y`作为纵轴做散点图，其中`cex=2`，颜色为红色，点的形状为默认的空心圆形，标题为数学公式 $y=x^3$。
+```{r}
+plot(y~x,main=expression(y==x^3),col="red",cex=2)
+```
+
+4. 以`x`作为横轴，`y`作为纵轴做散点图，其中下标为奇数的点的形状为空心圆形，下标为偶数的点的形状为实心圆形。
+```{r}
+plot(y~x,main=expression(y==x^3),col="red",cex=2,pch=ifelse(1:50%%2==1,1,16))
+```

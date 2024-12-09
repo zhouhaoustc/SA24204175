@@ -1,0 +1,116 @@
+---
+title: "Homework2"
+author: "Hao Zhou"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Homework2}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  fig.width = 7,   # 调整图形宽度
+  fig.height = 5,  # 调整图形高度
+  fig.align = 'center',  # 居中对齐
+  out.width = '80%',     # 输出宽度
+  mar = c(4, 4, 2, 1)    # 调整图形边距 
+)
+```
+
+## Question
+
+### 3.4
+
+The Rayleigh density [156, Ch. 18] is  
+$$f(x)=\frac{x}{\sigma^2}e^{-x^2/(2\sigma^2)},\qquad x\geq0,\sigma>0.$$  
+Develop an algorithm to generate random samples from a Rayleigh(σ) distribution. Generate Rayleigh(σ) samples for several choices of σ > 0 and check that the mode of the generated samples is close to the theoretical mode σ (check the histogram).  
+Note that cdf $F(x)=1-e^{-x^2/(2\sigma^2)},x>0$.Then use the inverse transform  
+$$u=1-e^{-x^2/(2\sigma^2)}\Longrightarrow F^{-1}(u)=\sigma(-2\log(1-u))^{1/2}.$$  
+Obviously,$U$ and $1-U$ have the same distribution.
+
+```{r}
+n <- 3000
+sigma <- seq(0.5,2,length = 4)
+```
+
+Samples of size n=3000 are generared for four choices of $\sigma$. Histograms below show the mode of the sample is
+close to the theoretical mode $\sigma$.
+
+```{r}
+par(mfrow = c(2, 2))
+for (i in 1:4){
+  u <- runif(n)
+  x <- sigma[i] * sqrt(-2*log(u))
+  hist(x, breaks = "Scott", prob = TRUE, main = sigma[i])
+  abline(v = sigma[i], lwd =1.5)
+}
+```
+
+### 3.11
+
+Generate a random sample of size 1000 from a normal location mixture. The components of the mixture have $N(0, 1)$ and $N(3, 1)$ distributions with mixing probabilities $p_1$ and $p_2 = 1 − p_1$. Graph the histogram of the sample with density superimposed, for $p_1 = 0.75$. Repeat with different values for $p_1$ and observe whether the empirical distribution of the mixture appears to be bimodal. Make a conjecture about the values of $p_1$ that produce bimodal mixtures.
+
+```{r}
+n <- 1000
+p <- 0.75
+mu <- sample(c(0, 3), size = 1000, replace =TRUE, prob = c(p, 1-p))
+x <- rnorm(n, mu, 1)
+```
+
+Below is the histogram of the samole with density superimposed, for $p_1 = 0.75$.  
+
+```{r}
+hist(x, breaks = "Scott", prob = TRUE)
+y <- sort(x)
+fy <- p * dnorm(y) + (1-p) * dnorm(y, 3, 1)
+lines(y, fy)
+```
+
+Repeat with different values for $p_1$.
+
+```{r}
+par(mfrow = c(3, 3))
+p <- seq(0.1, 0.9, length = 9)
+for (i in 1:9) {
+  mu <- sample(c(0, 3),size = 1000, replace = TRUE, prob = c(p[i], 1-p[i]))
+  x <- rnorm(n, mu, 1)
+  hist(x, breaks = "Scott", prob = TRUE, main = paste("p=", p[i]))
+  y <-sort(x)
+  fy <- p[i] * dnorm(y) + (1-p[i]) * dnorm(y, 3, 1)
+  lines(y, fy)
+}
+```
+
+Through observing, we might conjecture that  $0.2 < p < 0.8$ produce bimodal mixtures.
+
+### 3.20
+
+A composed Poisson process is a stochastic process $\{X(t),t\ge 0\}$ that can be represented as the random sum $X(t)=\sum_{i=1}^{N(t)} Y_i,t\ge 0$, where $\{N(t),t\ge 0\}$ is a Poisson process and $Y_1, Y_2,\ldots$ are iid and independent of $\{N(t),t\ge 0\}$. Write a program to simulate a compound $Poisson(\lambda)-Gamma$ process (Y has a Gamma distribution). Estimate the mean and the variance of X(10) for several choices of the parameters and compare with the theoretical values.
+
+```{r}
+alpha <- 4
+beta <- 2
+lambda <- seq(2, 4, length = 3)
+t <- 10
+Pp <- function(lambda, t){
+  tn <- rexp(1000, lambda)
+  sn <- cumsum(tn)
+  n <- min(which(sn > t))
+  return(n-1)
+}
+x <- numeric(1000)
+for (i in 1:3) {
+  for (j in 1:1000) {
+    N <- Pp(lambda[i], t)
+    x[j] <- sum(rgamma(N, shape = alpha, rate = beta))
+  }
+  print(paste("Empirical value of the mean for lambda = ", lambda[i], "is", mean(x)))
+  print(paste("Theoretical value of the mean for lambda = ", lambda[i], "is", lambda[i] * t * alpha/beta))
+  print(paste("Empirical value of the variance for lambda = ", lambda[i], "is", var(x)))
+  print(paste("Theoretical value of the varience for lambda = ", lambda[i], "is", lambda[i] * t * (alpha/beta^2 + (alpha/beta)^2)))
+}
+```
+
+

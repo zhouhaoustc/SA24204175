@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<meta name="author" content="Hao Zhou" />
+
+<meta name="date" content="2024-12-09" />
+
+<title>Homework1</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Homework1</h1>
+<h4 class="author">Hao Zhou</h4>
+<h4 class="date">2024-12-09</h4>
+
+
+
+<div id="example" class="section level1">
+<h1>Example</h1>
+<div id="example-1" class="section level2">
+<h2>Example 1</h2>
+<p>构造一个列表<code>score</code>，存放学生李明的成绩，如下：</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>score <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">name=</span><span class="st">&quot;李明&quot;</span>, <span class="at">id =</span> <span class="st">&quot;PB1&quot;</span>, <span class="at">age=</span><span class="dv">19</span>, <span class="at">scores=</span><span class="fu">c</span>(<span class="dv">85</span>, <span class="dv">76</span>, <span class="dv">90</span>))</span></code></pre></div>
+<ol style="list-style-type: decimal">
+<li>提取年龄，并以今年为记录时间计算其出生年份；</li>
+</ol>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>score[[<span class="dv">3</span>]]</span></code></pre></div>
+<pre><code>## [1] 19</code></pre>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>d<span class="ot">&lt;-</span><span class="fu">Sys.time</span>()</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>p<span class="ot">&lt;-</span><span class="fu">as.POSIXlt</span>(d)</span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="fu">cat</span>(<span class="dv">1900</span><span class="sc">+</span>p<span class="sc">$</span>year<span class="sc">-</span>score[[<span class="dv">3</span>]])</span></code></pre></div>
+<pre><code>## 2005</code></pre>
+<ol start="2" style="list-style-type: decimal">
+<li>最后一个元素展示的是语数英三科的成绩，提取出来记为<code>y</code>,
+并计算其平均成绩；</li>
+</ol>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>y<span class="ot">&lt;-</span>score[[<span class="dv">4</span>]]</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="fu">mean</span>(y)</span></code></pre></div>
+<pre><code>## [1] 83.66667</code></pre>
+<ol start="3" style="list-style-type: decimal">
+<li>增加一个元素记录是否是优秀学生，其中优秀学生的定义为平均成绩大于85分。</li>
+</ol>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>score<span class="sc">$</span>excellent<span class="ot">&lt;-</span><span class="st">&#39;NO&#39;</span></span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>score</span></code></pre></div>
+<pre><code>## $name
+## [1] &quot;李明&quot;
+## 
+## $id
+## [1] &quot;PB1&quot;
+## 
+## $age
+## [1] 19
+## 
+## $scores
+## [1] 85 76 90
+## 
+## $excellent
+## [1] &quot;NO&quot;</code></pre>
+</div>
+<div id="example-2" class="section level2">
+<h2>Example 2</h2>
+<p>covid19.csv文档里面记录了某地区新冠病人的住院信息。</p>
+<ol style="list-style-type: decimal">
+<li>把covid19.csv读入到数据框<code>pat1</code>中，输出其列名和前三行的内容；</li>
+</ol>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>pat1<span class="ot">&lt;-</span><span class="fu">read.csv</span>(<span class="st">&quot;covid19.csv&quot;</span>,<span class="at">header =</span> <span class="cn">TRUE</span>,<span class="at">na.strings =</span> <span class="st">&quot;&quot;</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a><span class="fu">names</span>(pat1)</span></code></pre></div>
+<pre><code>## [1] &quot;序号&quot;     &quot;分型&quot;     &quot;性别&quot;     &quot;年龄&quot;     &quot;入院时间&quot; &quot;出院时间&quot; &quot;疗程&quot;</code></pre>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="fu">head</span>(pat1,<span class="at">n=</span><span class="dv">3</span>)</span></code></pre></div>
+<pre><code>##   序号 分型 性别 年龄 入院时间 出院时间 疗程
+## 1    1 重型   男   49 20200121 20200211   22
+## 2    2 重型 &lt;NA&gt;   47 20200121 20200214   25
+## 3    3 重型   男   51 20200124 20200207   15</code></pre>
+<ol start="2" style="list-style-type: decimal">
+<li>找出性别中有缺失值的行并将其去掉，去掉后的数据框仍然记为<code>pat1</code>；</li>
+</ol>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a>pat1[<span class="fu">is.na</span>(pat1<span class="sc">$</span>性别),]</span></code></pre></div>
+<pre><code>##   序号 分型 性别 年龄 入院时间 出院时间 疗程
+## 2    2 重型 &lt;NA&gt;   47 20200121 20200214   25</code></pre>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a>pat1<span class="ot">&lt;-</span>pat1[<span class="sc">-</span><span class="fu">which</span>(<span class="fu">is.na</span>(pat1<span class="sc">$</span>性别)),]</span>
+<span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a>pat1</span></code></pre></div>
+<pre><code>##    序号   分型 性别 年龄 入院时间 出院时间 疗程
+## 1     1   重型   男   49 20200121 20200211   22
+## 3     3   重型   男   51 20200124 20200207   15
+## 4     4 普通型   男   24 20200122 20200203   13
+## 5     5 普通型   男   47 20200122 20200208   18
+## 6     6 普通型   女   40 20200125 20200208   15
+## 7     7 普通型   女   50 20200125 20200203   10
+## 8     8 普通型   男   55 20200126 20200210   16
+## 9     9 普通型   女   24 20200123 20200210   19
+## 10   10 普通型   女   50 20200128 20200210   14
+## 11   11 普通型   男   51 20200128 20200217   21
+## 12   12   重型   男   29 20200129 20200211   14
+## 13   13 普通型   男   49 20200129 20200226   29
+## 14   14 普通型   男   53 20200129 20200213   16
+## 15   15 普通型   男   22 20200129 20200213   16
+## 16   16 普通型   男   22 20200129 20200225   28
+## 17   17 普通型   男   21 20200129 20200224   27
+## 18   18 普通型   男   39 20200129 20200215   18
+## 19   19 普通型   男   22 20200129 20200303   NA
+## 20   20 普通型   女   22 20200130 20200225   27
+## 21   21 普通型   女   16 20200130 20200212   14
+## 22   22 普通型   女   37 20200130 20200214   16
+## 23   23 普通型   男   37 20200130 20200215   17
+## 24   24 普通型   女   47 20200131 20200220   21
+## 25   25 普通型   男   34 20200131 20200213   14
+## 26   26 普通型   女   32 20200131 20200220   21
+## 27   27 普通型   女   27 20200201 20200219   19
+## 28   28 普通型   男   28 20200131 20200225   26
+## 29   29 普通型   女   27 20200131 20200305   NA
+## 30   30   重型   男   68 20200201 20200223   24
+## 31   31 普通型   女   66 20200201 20200220   20
+## 32   32 普通型   男   67 20200201 20200223   23
+## 33   33 普通型   男   35 20200201 20200220   20
+## 34   34 普通型   女   43 20200202 20200222   21
+## 35   35 普通型   女   56 20200203 20200225   23
+## 36   36 普通型   男   21 20200203 20200218   16
+## 37   37 普通型   女   53 20200203 20200305   NA
+## 38   38 普通型   女   24 20200204 20200216   13
+## 39   39 普通型   男   43 20200204 20200219   16
+## 40   40 普通型   女   51 20200206 20200213    8
+## 41   41 普通型   女   49 20200206 20200216   11
+## 42   42 普通型   男   35 20200128 20200301   NA
+## 43   43 普通型   男   23 20200128 20200216   19
+## 44   44 普通型   女   47 20200128 20200210   14
+## 45   45 普通型   女   45 20200207 20200301   NA
+## 46   46 普通型   女   42 20200207 20200302   NA
+## 47   47 普通型   女   69 20200207 20200301   NA
+## 48   48 普通型   女   48 20200207 20200220   14
+## 49   49 普通型   女   50 20200205 20200226   22
+## 50   50 普通型   女   35 20200205 20200227   NA
+## 51   51 普通型   女   55 20220205 20200222   18
+## 52   54   重型   男   88 20200210 20200224   15
+## 53   55   重型   男   63 20200211 20200307   NA
+## 54   56   重型   男   36 20200207 20200218   12
+## 55   57   重型   男   57 20200201 20200229   NA
+## 56   58   重型   男   62 20200206 20200223   18
+## 57   59   重型   男   53 20200209 20200218   11
+## 58   60   重型   男   42 20200209 20200223   11
+## 59   61 普通型   男   52 20200205 20200217   13
+## 60   63   重型   女   56 20200209 20200226   18
+## 61   65   重型   男   61 20200208 20200217   11
+## 62   68 普通型   男   75 20200131 20200211   13
+## 63   71   重型   男   91 20200206 20200224   19
+## 64   73 普通型   男   44 20200208 20200224   17
+## 65   74   重型   女   44 20200205 20200222   18
+## 66   75 普通型   男   30 20200122 20200129    8
+## 67   76 普通型   男   40 20200128 20200206   10
+## 68   77 普通型   女   52 20200129 20200220   23
+## 69   78 普通型   女   29 20200129 20200206    9
+## 70   79   重型   男   69 20200206 20200220   15
+## 71   80   重型   女   56 20200131 20200223   24
+## 72   81   重型   男   68 20200213 20200224   12
+## 73   82 普通型   男    5 20200131 20200213   NA
+## 74   83   重型   男   72 20200221 20200225    5
+## 75   84   重型   男   29 20200208 20200220   13</code></pre>
+<ol start="3" style="list-style-type: decimal">
+<li>分别按性别、入院日期汇总数据并输出不同性别的入院人数、不同入院日期的入院人数；</li>
+</ol>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a><span class="fu">summary</span>(pat1<span class="sc">$</span>性别)</span></code></pre></div>
+<pre><code>##    Length     Class      Mode 
+##        74 character character</code></pre>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a><span class="fu">table</span>(pat1<span class="sc">$</span>性别)</span></code></pre></div>
+<pre><code>## 
+## 男 女 
+## 43 31</code></pre>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" tabindex="-1"></a><span class="fu">summary</span>(pat1<span class="sc">$</span>入院时间)</span></code></pre></div>
+<pre><code>##     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
+## 20200121 20200129 20200166 20200437 20200206 20220205</code></pre>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" tabindex="-1"></a><span class="fu">table</span>(pat1<span class="sc">$</span>入院时间)</span></code></pre></div>
+<pre><code>## 
+## 20200121 20200122 20200123 20200124 20200125 20200126 20200128 20200129 
+##        1        3        1        1        2        1        6       10 
+## 20200130 20200131 20200201 20200202 20200203 20200204 20200205 20200206 
+##        4        8        6        1        3        2        4        5 
+## 20200207 20200208 20200209 20200210 20200211 20200213 20200221 20220205 
+##        5        3        3        1        1        1        1        1</code></pre>
+<ol start="4" style="list-style-type: decimal">
+<li>分性别计算平均年龄、最大年龄和最小年龄；</li>
+</ol>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" tabindex="-1"></a><span class="fu">aggregate</span>(pat1<span class="sc">$</span>年龄,<span class="at">by=</span>pat1[<span class="st">&quot;性别&quot;</span>],mean)</span></code></pre></div>
+<pre><code>##   性别        x
+## 1   男 45.62791
+## 2   女 43.29032</code></pre>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" tabindex="-1"></a><span class="fu">aggregate</span>(pat1<span class="sc">$</span>年龄,<span class="at">by=</span>pat1[<span class="st">&quot;性别&quot;</span>],max)</span></code></pre></div>
+<pre><code>##   性别  x
+## 1   男 91
+## 2   女 69</code></pre>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" tabindex="-1"></a><span class="fu">aggregate</span>(pat1<span class="sc">$</span>年龄,<span class="at">by=</span>pat1[<span class="st">&quot;性别&quot;</span>],min)</span></code></pre></div>
+<pre><code>##   性别  x
+## 1   男  5
+## 2   女 16</code></pre>
+<ol start="5" style="list-style-type: decimal">
+<li>把年龄分成1—10, 11—20, ……, 70以上各段，
+保存为“年龄段”变量，并将其加入到数据框<code>pat1</code>中；</li>
+</ol>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" tabindex="-1"></a>k<span class="ot">&lt;-</span><span class="fu">as.data.frame</span>(<span class="fu">cut</span>(pat1<span class="sc">$</span>年龄,<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">10</span>,<span class="dv">20</span>,<span class="dv">30</span>,<span class="dv">40</span>,<span class="dv">50</span>,<span class="dv">60</span>,<span class="dv">70</span>,<span class="dv">100</span>)))</span>
+<span id="cb32-2"><a href="#cb32-2" tabindex="-1"></a><span class="fu">colnames</span>(k)<span class="ot">&lt;-</span><span class="st">&quot;年龄段&quot;</span></span>
+<span id="cb32-3"><a href="#cb32-3" tabindex="-1"></a>pat1<span class="ot">&lt;-</span><span class="fu">cbind</span>(pat1,k)</span>
+<span id="cb32-4"><a href="#cb32-4" tabindex="-1"></a>pat1</span></code></pre></div>
+<pre><code>##    序号   分型 性别 年龄 入院时间 出院时间 疗程   年龄段
+## 1     1   重型   男   49 20200121 20200211   22  (40,50]
+## 3     3   重型   男   51 20200124 20200207   15  (50,60]
+## 4     4 普通型   男   24 20200122 20200203   13  (20,30]
+## 5     5 普通型   男   47 20200122 20200208   18  (40,50]
+## 6     6 普通型   女   40 20200125 20200208   15  (30,40]
+## 7     7 普通型   女   50 20200125 20200203   10  (40,50]
+## 8     8 普通型   男   55 20200126 20200210   16  (50,60]
+## 9     9 普通型   女   24 20200123 20200210   19  (20,30]
+## 10   10 普通型   女   50 20200128 20200210   14  (40,50]
+## 11   11 普通型   男   51 20200128 20200217   21  (50,60]
+## 12   12   重型   男   29 20200129 20200211   14  (20,30]
+## 13   13 普通型   男   49 20200129 20200226   29  (40,50]
+## 14   14 普通型   男   53 20200129 20200213   16  (50,60]
+## 15   15 普通型   男   22 20200129 20200213   16  (20,30]
+## 16   16 普通型   男   22 20200129 20200225   28  (20,30]
+## 17   17 普通型   男   21 20200129 20200224   27  (20,30]
+## 18   18 普通型   男   39 20200129 20200215   18  (30,40]
+## 19   19 普通型   男   22 20200129 20200303   NA  (20,30]
+## 20   20 普通型   女   22 20200130 20200225   27  (20,30]
+## 21   21 普通型   女   16 20200130 20200212   14  (10,20]
+## 22   22 普通型   女   37 20200130 20200214   16  (30,40]
+## 23   23 普通型   男   37 20200130 20200215   17  (30,40]
+## 24   24 普通型   女   47 20200131 20200220   21  (40,50]
+## 25   25 普通型   男   34 20200131 20200213   14  (30,40]
+## 26   26 普通型   女   32 20200131 20200220   21  (30,40]
+## 27   27 普通型   女   27 20200201 20200219   19  (20,30]
+## 28   28 普通型   男   28 20200131 20200225   26  (20,30]
+## 29   29 普通型   女   27 20200131 20200305   NA  (20,30]
+## 30   30   重型   男   68 20200201 20200223   24  (60,70]
+## 31   31 普通型   女   66 20200201 20200220   20  (60,70]
+## 32   32 普通型   男   67 20200201 20200223   23  (60,70]
+## 33   33 普通型   男   35 20200201 20200220   20  (30,40]
+## 34   34 普通型   女   43 20200202 20200222   21  (40,50]
+## 35   35 普通型   女   56 20200203 20200225   23  (50,60]
+## 36   36 普通型   男   21 20200203 20200218   16  (20,30]
+## 37   37 普通型   女   53 20200203 20200305   NA  (50,60]
+## 38   38 普通型   女   24 20200204 20200216   13  (20,30]
+## 39   39 普通型   男   43 20200204 20200219   16  (40,50]
+## 40   40 普通型   女   51 20200206 20200213    8  (50,60]
+## 41   41 普通型   女   49 20200206 20200216   11  (40,50]
+## 42   42 普通型   男   35 20200128 20200301   NA  (30,40]
+## 43   43 普通型   男   23 20200128 20200216   19  (20,30]
+## 44   44 普通型   女   47 20200128 20200210   14  (40,50]
+## 45   45 普通型   女   45 20200207 20200301   NA  (40,50]
+## 46   46 普通型   女   42 20200207 20200302   NA  (40,50]
+## 47   47 普通型   女   69 20200207 20200301   NA  (60,70]
+## 48   48 普通型   女   48 20200207 20200220   14  (40,50]
+## 49   49 普通型   女   50 20200205 20200226   22  (40,50]
+## 50   50 普通型   女   35 20200205 20200227   NA  (30,40]
+## 51   51 普通型   女   55 20220205 20200222   18  (50,60]
+## 52   54   重型   男   88 20200210 20200224   15 (70,100]
+## 53   55   重型   男   63 20200211 20200307   NA  (60,70]
+## 54   56   重型   男   36 20200207 20200218   12  (30,40]
+## 55   57   重型   男   57 20200201 20200229   NA  (50,60]
+## 56   58   重型   男   62 20200206 20200223   18  (60,70]
+## 57   59   重型   男   53 20200209 20200218   11  (50,60]
+## 58   60   重型   男   42 20200209 20200223   11  (40,50]
+## 59   61 普通型   男   52 20200205 20200217   13  (50,60]
+## 60   63   重型   女   56 20200209 20200226   18  (50,60]
+## 61   65   重型   男   61 20200208 20200217   11  (60,70]
+## 62   68 普通型   男   75 20200131 20200211   13 (70,100]
+## 63   71   重型   男   91 20200206 20200224   19 (70,100]
+## 64   73 普通型   男   44 20200208 20200224   17  (40,50]
+## 65   74   重型   女   44 20200205 20200222   18  (40,50]
+## 66   75 普通型   男   30 20200122 20200129    8  (20,30]
+## 67   76 普通型   男   40 20200128 20200206   10  (30,40]
+## 68   77 普通型   女   52 20200129 20200220   23  (50,60]
+## 69   78 普通型   女   29 20200129 20200206    9  (20,30]
+## 70   79   重型   男   69 20200206 20200220   15  (60,70]
+## 71   80   重型   女   56 20200131 20200223   24  (50,60]
+## 72   81   重型   男   68 20200213 20200224   12  (60,70]
+## 73   82 普通型   男    5 20200131 20200213   NA   (1,10]
+## 74   83   重型   男   72 20200221 20200225    5 (70,100]
+## 75   84   重型   男   29 20200208 20200220   13  (20,30]</code></pre>
+<ol start="6" style="list-style-type: decimal">
+<li>用年龄段和性别交叉汇总发病人数，并计算其占总人数的百分比(结果乘以100并保留一位小数)，
+保存到“年龄性别分布.csv”中
+要求将每个年龄段的男性病人数、女性发病人数存为一行。</li>
+</ol>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" tabindex="-1"></a>m<span class="ot">&lt;-</span><span class="fu">table</span>(pat1[,<span class="st">&quot;年龄段&quot;</span>],pat1[,<span class="st">&quot;性别&quot;</span>])</span>
+<span id="cb34-2"><a href="#cb34-2" tabindex="-1"></a>m</span></code></pre></div>
+<pre><code>##           
+##            男 女
+##   (1,10]    1  0
+##   (10,20]   0  1
+##   (20,30]  11  6
+##   (30,40]   7  4
+##   (40,50]   6 11
+##   (50,60]   7  7
+##   (60,70]   7  2
+##   (70,100]  4  0</code></pre>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" tabindex="-1"></a>m1<span class="ot">&lt;-</span><span class="fu">round</span>(m<span class="sc">/</span><span class="fu">nrow</span>(pat1)<span class="sc">*</span><span class="dv">100</span>,<span class="dv">1</span>)</span>
+<span id="cb36-2"><a href="#cb36-2" tabindex="-1"></a>m1</span></code></pre></div>
+<pre><code>##           
+##              男   女
+##   (1,10]    1.4  0.0
+##   (10,20]   0.0  1.4
+##   (20,30]  14.9  8.1
+##   (30,40]   9.5  5.4
+##   (40,50]   8.1 14.9
+##   (50,60]   9.5  9.5
+##   (60,70]   9.5  2.7
+##   (70,100]  5.4  0.0</code></pre>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" tabindex="-1"></a><span class="fu">write.csv</span>(m,<span class="at">file=</span><span class="st">&quot;年龄性别分布.csv&quot;</span>)</span></code></pre></div>
+<p>covid19-3.csv文档记录病人入院前的基本信息。</p>
+<ol start="7" style="list-style-type: decimal">
+<li>把covid19-3.csv读入到数据框<code>pat2</code>中，输出其列名和前三行的内容；</li>
+</ol>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" tabindex="-1"></a>pat2<span class="ot">&lt;-</span><span class="fu">read.csv</span>(<span class="st">&quot;covid19-3.csv&quot;</span>,<span class="at">header =</span> <span class="cn">TRUE</span>,<span class="at">na.strings =</span> <span class="st">&quot;&quot;</span>)</span>
+<span id="cb39-2"><a href="#cb39-2" tabindex="-1"></a><span class="fu">names</span>(pat2)</span></code></pre></div>
+<pre><code>## [1] &quot;序号&quot; &quot;职业&quot; &quot;病史&quot; &quot;吸烟&quot;</code></pre>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" tabindex="-1"></a><span class="fu">head</span>(pat2,<span class="at">n=</span><span class="dv">3</span>)</span></code></pre></div>
+<pre><code>##   序号 职业 病史 吸烟
+## 1    1 职员 首诊   无
+## 2    2 无业 首诊   无
+## 3    3 职员 首诊   有</code></pre>
+<ol start="8" style="list-style-type: decimal">
+<li>合并<code>pat1</code>和<code>pat2</code>，并将合并后的数据框定义为<code>pat</code>，要求合并后保留pat1所有的行;</li>
+</ol>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" tabindex="-1"></a>pat<span class="ot">&lt;-</span><span class="fu">merge</span>(pat1,pat2,<span class="at">by.x=</span><span class="st">&quot;序号&quot;</span>,<span class="at">by.y =</span> <span class="st">&quot;序号&quot;</span>,<span class="at">all.x =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb43-2"><a href="#cb43-2" tabindex="-1"></a>pat</span></code></pre></div>
+<pre><code>##    序号   分型 性别 年龄 入院时间 出院时间 疗程   年龄段     职业     病史 吸烟
+## 1     1   重型   男   49 20200121 20200211   22  (40,50]     职员     首诊   无
+## 2     3   重型   男   51 20200124 20200207   15  (50,60]     职员     首诊   有
+## 3     4 普通型   男   24 20200122 20200203   13  (20,30] 地铁工作     首诊   无
+## 4     5 普通型   男   47 20200122 20200208   18  (40,50]     销售     首诊   有
+## 5     6 普通型   女   40 20200125 20200208   15  (30,40]     个体     首诊   无
+## 6     7 普通型   女   50 20200125 20200203   10  (40,50]     &lt;NA&gt;     &lt;NA&gt; &lt;NA&gt;
+## 7     8 普通型   男   55 20200126 20200210   16  (50,60]     无业     首诊   无
+## 8     9 普通型   女   24 20200123 20200210   19  (20,30]     职员     首诊   无
+## 9    10 普通型   女   50 20200128 20200210   14  (40,50]     个体     首诊   无
+## 10   11 普通型   男   51 20200128 20200217   21  (50,60]     干部     首诊   无
+## 11   12   重型   男   29 20200129 20200211   14  (20,30]     职员     首诊   无
+## 12   13 普通型   男   49 20200129 20200226   29  (40,50]     职员     首诊   无
+## 13   14 普通型   男   53 20200129 20200213   16  (50,60]     职员     首诊   无
+## 14   15 普通型   男   22 20200129 20200213   16  (20,30]     学生     首诊   无
+## 15   16 普通型   男   22 20200129 20200225   28  (20,30]     &lt;NA&gt;     &lt;NA&gt; &lt;NA&gt;
+## 16   17 普通型   男   21 20200129 20200224   27  (20,30]     学生     首诊   无
+## 17   18 普通型   男   39 20200129 20200215   18  (30,40]     无业     首诊   无
+## 18   19 普通型   男   22 20200129 20200303   NA  (20,30]     学生     首诊   无
+## 19   20 普通型   女   22 20200130 20200225   27  (20,30]     职员     首诊   无
+## 20   21 普通型   女   16 20200130 20200212   14  (10,20]     学生     首诊   无
+## 21   22 普通型   女   37 20200130 20200214   16  (30,40] 个体经营     首诊   无
+## 22   23 普通型   男   37 20200130 20200215   17  (30,40] 个体经营     首诊   无
+## 23   24 普通型   女   47 20200131 20200220   21  (40,50] 个体经营     首诊   无
+## 24   25 普通型   男   34 20200131 20200213   14  (30,40]     个体     首诊   有
+## 25   26 普通型   女   32 20200131 20200220   21  (30,40]     无业     首诊   无
+## 26   27 普通型   女   27 20200201 20200219   19  (20,30]     教师     首诊   无
+## 27   28 普通型   男   28 20200131 20200225   26  (20,30]     采购     首诊   无
+## 28   29 普通型   女   27 20200131 20200305   NA  (20,30]     &lt;NA&gt;     &lt;NA&gt; &lt;NA&gt;
+## 29   30   重型   男   68 20200201 20200223   24  (60,70]     农民     首诊   无
+## 30   31 普通型   女   66 20200201 20200220   20  (60,70]     无业     首诊   无
+## 31   32 普通型   男   67 20200201 20200223   23  (60,70]     退休     首诊   无
+## 32   33 普通型   男   35 20200201 20200220   20  (30,40]     不详     首诊   无
+## 33   34 普通型   女   43 20200202 20200222   21  (40,50]     职员     首诊   无
+## 34   35 普通型   女   56 20200203 20200225   23  (50,60]     工人     首诊   无
+## 35   36 普通型   男   21 20200203 20200218   16  (20,30]     学生     首诊   无
+## 36   37 普通型   女   53 20200203 20200305   NA  (50,60]     无业     首诊   无
+## 37   38 普通型   女   24 20200204 20200216   13  (20,30]     无业     首诊   无
+## 38   39 普通型   男   43 20200204 20200219   16  (40,50]     工人     首诊   无
+## 39   40 普通型   女   51 20200206 20200213    8  (50,60]   公务员     首诊   无
+## 40   41 普通型   女   49 20200206 20200216   11  (40,50]     农民     首诊   无
+## 41   42 普通型   男   35 20200128 20200301   NA  (30,40]     &lt;NA&gt;     &lt;NA&gt; &lt;NA&gt;
+## 42   43 普通型   男   23 20200128 20200216   19  (20,30]     工人     首诊   无
+## 43   44 普通型   女   47 20200128 20200210   14  (40,50]     工人     首诊   无
+## 44   45 普通型   女   45 20200207 20200301   NA  (40,50]     无业     首诊   无
+## 45   46 普通型   女   42 20200207 20200302   NA  (40,50]     个体     首诊   无
+## 46   47 普通型   女   69 20200207 20200301   NA  (60,70]     无业     首诊   无
+## 47   48 普通型   女   48 20200207 20200220   14  (40,50]     无业     首诊   无
+## 48   49 普通型   女   50 20200205 20200226   22  (40,50]     医生     首诊   无
+## 49   50 普通型   女   35 20200205 20200227   NA  (30,40]     职员     首诊   无
+## 50   51 普通型   女   55 20220205 20200222   18  (50,60] 自由职业     首诊   无
+## 51   54   重型   男   88 20200210 20200224   15 (70,100]     退休 外院转入   无
+## 52   55   重型   男   63 20200211 20200307   NA  (60,70]     退休 外院转入   无
+## 53   56   重型   男   36 20200207 20200218   12  (30,40]     职员 外院转入   无
+## 54   57   重型   男   57 20200201 20200229   NA  (50,60]     农民     首诊   无
+## 55   58   重型   男   62 20200206 20200223   18  (60,70] 个体经营 外院转入   无
+## 56   59   重型   男   53 20200209 20200218   11  (50,60]     农民 外院转入   无
+## 57   60   重型   男   42 20200209 20200223   11  (40,50]     农民 外院转入   无
+## 58   61 普通型   男   52 20200205 20200217   13  (50,60]     农民 外院转入   无
+## 59   63   重型   女   56 20200209 20200226   18  (50,60]     农民 外院转入   无
+## 60   65   重型   男   61 20200208 20200217   11  (60,70]     &lt;NA&gt;     &lt;NA&gt; &lt;NA&gt;
+## 61   68 普通型   男   75 20200131 20200211   13 (70,100]     退休     首诊   无
+## 62   71   重型   男   91 20200206 20200224   19 (70,100]       无     首诊   无
+## 63   73 普通型   男   44 20200208 20200224   17  (40,50]     无业     首诊   无
+## 64   74   重型   女   44 20200205 20200222   18  (40,50]     个体 外院转入   无
+## 65   75 普通型   男   30 20200122 20200129    8  (20,30]     金融     首诊   无
+## 66   76 普通型   男   40 20200128 20200206   10  (30,40]   汽修工     首诊   无
+## 67   77 普通型   女   52 20200129 20200220   23  (50,60] 服务行业     首诊   无
+## 68   78 普通型   女   29 20200129 20200206    9  (20,30]   公务员     首诊   无
+## 69   79   重型   男   69 20200206 20200220   15  (60,70]     退休     首诊   无
+## 70   80   重型   女   56 20200131 20200223   24  (50,60]     农民     首诊   无
+## 71   81   重型   男   68 20200213 20200224   12  (60,70]     医生 外院转入   无
+## 72   82 普通型   男    5 20200131 20200213   NA   (1,10]       无     首诊   无
+## 73   83   重型   男   72 20200221 20200225    5 (70,100]     &lt;NA&gt;     &lt;NA&gt; &lt;NA&gt;
+## 74   84   重型   男   29 20200208 20200220   13  (20,30]     无业     首诊   无</code></pre>
+<ol start="9" style="list-style-type: decimal">
+<li>显示抽烟、年龄超过40且住院时间超过10天的病人分型和年龄。</li>
+</ol>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" tabindex="-1"></a>pat[,<span class="st">&quot;入院时间&quot;</span>] <span class="ot">&lt;-</span> <span class="fu">as.Date</span>(<span class="fu">as.character</span>(pat[,<span class="st">&quot;入院时间&quot;</span>]), <span class="at">format =</span> <span class="st">&quot;%Y%m%d&quot;</span>)</span>
+<span id="cb45-2"><a href="#cb45-2" tabindex="-1"></a>pat[,<span class="st">&quot;出院时间&quot;</span>] <span class="ot">&lt;-</span> <span class="fu">as.Date</span>(<span class="fu">as.character</span>(pat[,<span class="st">&quot;出院时间&quot;</span>]), <span class="at">format =</span> <span class="st">&quot;%Y%m%d&quot;</span>)</span>
+<span id="cb45-3"><a href="#cb45-3" tabindex="-1"></a>pat[pat<span class="sc">$</span>住院时间<span class="sc">&lt;</span><span class="dv">0</span>,<span class="st">&quot;入院时间&quot;</span>]<span class="ot">&lt;-</span><span class="fu">as.Date</span>(<span class="st">&quot;2020-02-05&quot;</span>)</span>
+<span id="cb45-4"><a href="#cb45-4" tabindex="-1"></a>pat[,<span class="st">&quot;住院时间&quot;</span>] <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(pat[,<span class="st">&quot;出院时间&quot;</span>] <span class="sc">-</span> pat[,<span class="st">&quot;入院时间&quot;</span>]) <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb45-5"><a href="#cb45-5" tabindex="-1"></a>pat[pat<span class="sc">$</span>吸烟<span class="sc">==</span><span class="st">&quot;有&quot;</span><span class="sc">&amp;</span>pat<span class="sc">$</span>年龄<span class="sc">&gt;</span><span class="dv">40</span><span class="sc">&amp;</span>pat<span class="sc">$</span>住院时间<span class="sc">&gt;</span><span class="dv">10</span>,<span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">4</span>)]</span></code></pre></div>
+<pre><code>##     分型 年龄
+## 2   重型   51
+## 4 普通型   47</code></pre>
+</div>
+<div id="example-3" class="section level2">
+<h2>Example 3</h2>
+<p>1.假设我们通过如下命令产生了一组数据：</p>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" tabindex="-1"></a>n <span class="ot">=</span> <span class="dv">50</span></span>
+<span id="cb47-2"><a href="#cb47-2" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">0</span>)</span>
+<span id="cb47-3"><a href="#cb47-3" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">runif</span>(n, <span class="at">min=</span><span class="sc">-</span><span class="dv">2</span>, <span class="at">max=</span><span class="dv">2</span>)</span>
+<span id="cb47-4"><a href="#cb47-4" tabindex="-1"></a>y <span class="ot">=</span> x<span class="sc">^</span><span class="dv">3</span> <span class="sc">+</span> <span class="fu">rnorm</span>(n)</span></code></pre></div>
+<p>2.以<code>x</code>作为横轴，<code>y</code>作为纵轴作折线图。</p>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" tabindex="-1"></a>u<span class="ot">=</span><span class="fu">sort</span>(x)</span>
+<span id="cb48-2"><a href="#cb48-2" tabindex="-1"></a>v<span class="ot">=</span>y[<span class="fu">order</span>(x)]</span>
+<span id="cb48-3"><a href="#cb48-3" tabindex="-1"></a><span class="fu">plot</span>(u, v, <span class="at">xlab=</span><span class="st">&quot;x&quot;</span>,<span class="at">ylab =</span> <span class="st">&quot;y&quot;</span>,<span class="at">type=</span><span class="st">&#39;l&#39;</span>)</span></code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+<ol start="3" style="list-style-type: decimal">
+<li>以<code>x</code>作为横轴，<code>y</code>作为纵轴做散点图，其中<code>cex=2</code>，颜色为红色，点的形状为默认的空心圆形，标题为数学公式
+<span class="math inline">\(y=x^3\)</span>。</li>
+</ol>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" tabindex="-1"></a><span class="fu">plot</span>(y<span class="sc">~</span>x,<span class="at">main=</span><span class="fu">expression</span>(y<span class="sc">==</span>x<span class="sc">^</span><span class="dv">3</span>),<span class="at">col=</span><span class="st">&quot;red&quot;</span>,<span class="at">cex=</span><span class="dv">2</span>)</span></code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+<ol start="4" style="list-style-type: decimal">
+<li>以<code>x</code>作为横轴，<code>y</code>作为纵轴做散点图，其中下标为奇数的点的形状为空心圆形，下标为偶数的点的形状为实心圆形。</li>
+</ol>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" tabindex="-1"></a><span class="fu">plot</span>(y<span class="sc">~</span>x,<span class="at">main=</span><span class="fu">expression</span>(y<span class="sc">==</span>x<span class="sc">^</span><span class="dv">3</span>),<span class="at">col=</span><span class="st">&quot;red&quot;</span>,<span class="at">cex=</span><span class="dv">2</span>,<span class="at">pch=</span><span class="fu">ifelse</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">50</span><span class="sc">%%</span><span class="dv">2</span><span class="sc">==</span><span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">16</span>))</span></code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+</div>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

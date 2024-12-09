@@ -1,0 +1,96 @@
+---
+title: "Homework4"
+author: "Hao Zhou"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Homework4}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# 1
+
+```{r}
+# 参数设置
+N <- 1000
+num_null <- 950
+alpha <- 0.1
+m <- 10000
+
+# 结果统计
+fwer_bonf <- fwer_bh <- fdr_bonf <- fdr_bh <- tpr_bonf <- tpr_bh <- 0
+
+# 模拟
+for (i in 1:m) {
+  # 生成p值
+  p_null <- runif(num_null)
+  p_alt <- rbeta(N - num_null, 0.1, 1)
+  p_values <- c(p_null, p_alt)
+  
+  # Bonferroni校正
+  bonf_sig <- p_values <= alpha / N
+  fwer_bonf <- fwer_bonf + any(bonf_sig[1:num_null])
+  fdr_bonf <- fdr_bonf + sum(bonf_sig[1:num_null]) / max(1, sum(bonf_sig))
+  tpr_bonf <- tpr_bonf + sum(bonf_sig[(num_null + 1):N]) / (N - num_null)
+  
+  # B-H校正
+  p_sorted <- sort(p_values)
+  bh_threshold <- (1:N) / N * alpha
+  bh_sig <- p_sorted <= bh_threshold
+  bh_sig <- p_values <= p_sorted[max(which(bh_sig))]
+  fwer_bh <- fwer_bh + any(bh_sig[1:num_null])
+  fdr_bh <- fdr_bh + sum(bh_sig[1:num_null]) / max(1, sum(bh_sig))
+  tpr_bh <- tpr_bh + sum(bh_sig[(num_null + 1):N]) / (N - num_null)
+}
+
+# 平均化
+fwer_bonf <- fwer_bonf / m
+fdr_bonf <- fdr_bonf / m
+tpr_bonf <- tpr_bonf / m
+fwer_bh <- fwer_bh / m
+fdr_bh <- fdr_bh / m
+tpr_bh <- tpr_bh / m
+
+# 输出结果
+result <- matrix(c(fwer_bonf, fdr_bonf, tpr_bonf, fwer_bh, fdr_bh, tpr_bh), 
+                 nrow = 3, byrow = FALSE,
+                 dimnames = list(c("FWER", "FDR", "TPR"), 
+                                 c("Bonferroni", "B-H")))
+print(result)
+
+```
+
+总的来说，Bonferroni校正在控制假阳性方面表现出色，但其过于保守导致了较低的真阳性率和较低的发现率。而B-H校正则在控制假发现率和提高真阳性率方面表现更好，更适合在需要发现率与错误率之间取得平衡的多重检验环境。因此，选择校正方法时应根据具体研究目标和容忍的错误类型来决定。
+
+# 2
+
+```{r}
+library(boot)
+x <- aircondit[1]
+rate <- function(x, i){
+  return(1/mean(as.matrix(x[i,])))
+}
+boot(x, statistic = rate, R = 1000)
+```
+
+$\lambda$的$MLE$为$1/\bar{x}$。偏差和标准差的估计如上面所示。
+
+# 3
+
+```{r}
+meant <- function(x, i){
+  return(mean(as.matrix(x[i,])))
+}
+a <- boot(x, statistic = meant, R = 1000)
+a
+boot.ci(a, type = c("norm", "perc", "basic", "bca"))
+hist(a$t, prob = TRUE, main = "", xlab = "")
+```
+
+样本并不近似呈现正态分布，因此正态区间和百分位数区间有区别。直方图显示重复样本的分布不对称，且样本量太小，中心极限定理得不到很好近似。BCa区间是一种百分位数类型的置信区间，对偏斜和偏差进行了校正。考虑了分布的不对称性和偏差，BCa区间在样本分布偏斜或样本量较小时，往往能提供更准确的置信区间。

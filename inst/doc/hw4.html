@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<meta name="author" content="Hao Zhou" />
+
+<meta name="date" content="2024-12-09" />
+
+<title>Homework4</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Homework4</h1>
+<h4 class="author">Hao Zhou</h4>
+<h4 class="date">2024-12-09</h4>
+
+
+
+<div id="section" class="section level1">
+<h1>1</h1>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="co"># 参数设置</span></span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>num_null <span class="ot">&lt;-</span> <span class="dv">950</span></span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>alpha <span class="ot">&lt;-</span> <span class="fl">0.1</span></span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="dv">10000</span></span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a><span class="co"># 结果统计</span></span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a>fwer_bonf <span class="ot">&lt;-</span> fwer_bh <span class="ot">&lt;-</span> fdr_bonf <span class="ot">&lt;-</span> fdr_bh <span class="ot">&lt;-</span> tpr_bonf <span class="ot">&lt;-</span> tpr_bh <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a><span class="co"># 模拟</span></span>
+<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>m) {</span>
+<span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a>  <span class="co"># 生成p值</span></span>
+<span id="cb1-13"><a href="#cb1-13" tabindex="-1"></a>  p_null <span class="ot">&lt;-</span> <span class="fu">runif</span>(num_null)</span>
+<span id="cb1-14"><a href="#cb1-14" tabindex="-1"></a>  p_alt <span class="ot">&lt;-</span> <span class="fu">rbeta</span>(N <span class="sc">-</span> num_null, <span class="fl">0.1</span>, <span class="dv">1</span>)</span>
+<span id="cb1-15"><a href="#cb1-15" tabindex="-1"></a>  p_values <span class="ot">&lt;-</span> <span class="fu">c</span>(p_null, p_alt)</span>
+<span id="cb1-16"><a href="#cb1-16" tabindex="-1"></a>  </span>
+<span id="cb1-17"><a href="#cb1-17" tabindex="-1"></a>  <span class="co"># Bonferroni校正</span></span>
+<span id="cb1-18"><a href="#cb1-18" tabindex="-1"></a>  bonf_sig <span class="ot">&lt;-</span> p_values <span class="sc">&lt;=</span> alpha <span class="sc">/</span> N</span>
+<span id="cb1-19"><a href="#cb1-19" tabindex="-1"></a>  fwer_bonf <span class="ot">&lt;-</span> fwer_bonf <span class="sc">+</span> <span class="fu">any</span>(bonf_sig[<span class="dv">1</span><span class="sc">:</span>num_null])</span>
+<span id="cb1-20"><a href="#cb1-20" tabindex="-1"></a>  fdr_bonf <span class="ot">&lt;-</span> fdr_bonf <span class="sc">+</span> <span class="fu">sum</span>(bonf_sig[<span class="dv">1</span><span class="sc">:</span>num_null]) <span class="sc">/</span> <span class="fu">max</span>(<span class="dv">1</span>, <span class="fu">sum</span>(bonf_sig))</span>
+<span id="cb1-21"><a href="#cb1-21" tabindex="-1"></a>  tpr_bonf <span class="ot">&lt;-</span> tpr_bonf <span class="sc">+</span> <span class="fu">sum</span>(bonf_sig[(num_null <span class="sc">+</span> <span class="dv">1</span>)<span class="sc">:</span>N]) <span class="sc">/</span> (N <span class="sc">-</span> num_null)</span>
+<span id="cb1-22"><a href="#cb1-22" tabindex="-1"></a>  </span>
+<span id="cb1-23"><a href="#cb1-23" tabindex="-1"></a>  <span class="co"># B-H校正</span></span>
+<span id="cb1-24"><a href="#cb1-24" tabindex="-1"></a>  p_sorted <span class="ot">&lt;-</span> <span class="fu">sort</span>(p_values)</span>
+<span id="cb1-25"><a href="#cb1-25" tabindex="-1"></a>  bh_threshold <span class="ot">&lt;-</span> (<span class="dv">1</span><span class="sc">:</span>N) <span class="sc">/</span> N <span class="sc">*</span> alpha</span>
+<span id="cb1-26"><a href="#cb1-26" tabindex="-1"></a>  bh_sig <span class="ot">&lt;-</span> p_sorted <span class="sc">&lt;=</span> bh_threshold</span>
+<span id="cb1-27"><a href="#cb1-27" tabindex="-1"></a>  bh_sig <span class="ot">&lt;-</span> p_values <span class="sc">&lt;=</span> p_sorted[<span class="fu">max</span>(<span class="fu">which</span>(bh_sig))]</span>
+<span id="cb1-28"><a href="#cb1-28" tabindex="-1"></a>  fwer_bh <span class="ot">&lt;-</span> fwer_bh <span class="sc">+</span> <span class="fu">any</span>(bh_sig[<span class="dv">1</span><span class="sc">:</span>num_null])</span>
+<span id="cb1-29"><a href="#cb1-29" tabindex="-1"></a>  fdr_bh <span class="ot">&lt;-</span> fdr_bh <span class="sc">+</span> <span class="fu">sum</span>(bh_sig[<span class="dv">1</span><span class="sc">:</span>num_null]) <span class="sc">/</span> <span class="fu">max</span>(<span class="dv">1</span>, <span class="fu">sum</span>(bh_sig))</span>
+<span id="cb1-30"><a href="#cb1-30" tabindex="-1"></a>  tpr_bh <span class="ot">&lt;-</span> tpr_bh <span class="sc">+</span> <span class="fu">sum</span>(bh_sig[(num_null <span class="sc">+</span> <span class="dv">1</span>)<span class="sc">:</span>N]) <span class="sc">/</span> (N <span class="sc">-</span> num_null)</span>
+<span id="cb1-31"><a href="#cb1-31" tabindex="-1"></a>}</span>
+<span id="cb1-32"><a href="#cb1-32" tabindex="-1"></a></span>
+<span id="cb1-33"><a href="#cb1-33" tabindex="-1"></a><span class="co"># 平均化</span></span>
+<span id="cb1-34"><a href="#cb1-34" tabindex="-1"></a>fwer_bonf <span class="ot">&lt;-</span> fwer_bonf <span class="sc">/</span> m</span>
+<span id="cb1-35"><a href="#cb1-35" tabindex="-1"></a>fdr_bonf <span class="ot">&lt;-</span> fdr_bonf <span class="sc">/</span> m</span>
+<span id="cb1-36"><a href="#cb1-36" tabindex="-1"></a>tpr_bonf <span class="ot">&lt;-</span> tpr_bonf <span class="sc">/</span> m</span>
+<span id="cb1-37"><a href="#cb1-37" tabindex="-1"></a>fwer_bh <span class="ot">&lt;-</span> fwer_bh <span class="sc">/</span> m</span>
+<span id="cb1-38"><a href="#cb1-38" tabindex="-1"></a>fdr_bh <span class="ot">&lt;-</span> fdr_bh <span class="sc">/</span> m</span>
+<span id="cb1-39"><a href="#cb1-39" tabindex="-1"></a>tpr_bh <span class="ot">&lt;-</span> tpr_bh <span class="sc">/</span> m</span>
+<span id="cb1-40"><a href="#cb1-40" tabindex="-1"></a></span>
+<span id="cb1-41"><a href="#cb1-41" tabindex="-1"></a><span class="co"># 输出结果</span></span>
+<span id="cb1-42"><a href="#cb1-42" tabindex="-1"></a>result <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(fwer_bonf, fdr_bonf, tpr_bonf, fwer_bh, fdr_bh, tpr_bh), </span>
+<span id="cb1-43"><a href="#cb1-43" tabindex="-1"></a>                 <span class="at">nrow =</span> <span class="dv">3</span>, <span class="at">byrow =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb1-44"><a href="#cb1-44" tabindex="-1"></a>                 <span class="at">dimnames =</span> <span class="fu">list</span>(<span class="fu">c</span>(<span class="st">&quot;FWER&quot;</span>, <span class="st">&quot;FDR&quot;</span>, <span class="st">&quot;TPR&quot;</span>), </span>
+<span id="cb1-45"><a href="#cb1-45" tabindex="-1"></a>                                 <span class="fu">c</span>(<span class="st">&quot;Bonferroni&quot;</span>, <span class="st">&quot;B-H&quot;</span>)))</span>
+<span id="cb1-46"><a href="#cb1-46" tabindex="-1"></a><span class="fu">print</span>(result)</span></code></pre></div>
+<pre><code>##       Bonferroni        B-H
+## FWER 0.089000000 0.93080000
+## FDR  0.004649199 0.09451072
+## TPR  0.397612000 0.56195400</code></pre>
+<p>总的来说，Bonferroni校正在控制假阳性方面表现出色，但其过于保守导致了较低的真阳性率和较低的发现率。而B-H校正则在控制假发现率和提高真阳性率方面表现更好，更适合在需要发现率与错误率之间取得平衡的多重检验环境。因此，选择校正方法时应根据具体研究目标和容忍的错误类型来决定。</p>
+</div>
+<div id="section-1" class="section level1">
+<h1>2</h1>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">library</span>(boot)</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>x <span class="ot">&lt;-</span> aircondit[<span class="dv">1</span>]</span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>rate <span class="ot">&lt;-</span> <span class="cf">function</span>(x, i){</span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>  <span class="fu">return</span>(<span class="dv">1</span><span class="sc">/</span><span class="fu">mean</span>(<span class="fu">as.matrix</span>(x[i,])))</span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>}</span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a><span class="fu">boot</span>(x, <span class="at">statistic =</span> rate, <span class="at">R =</span> <span class="dv">1000</span>)</span></code></pre></div>
+<pre><code>## 
+## ORDINARY NONPARAMETRIC BOOTSTRAP
+## 
+## 
+## Call:
+## boot(data = x, statistic = rate, R = 1000)
+## 
+## 
+## Bootstrap Statistics :
+##       original      bias    std. error
+## t1* 0.00925212 0.001243167 0.004310087</code></pre>
+<p><span class="math inline">\(\lambda\)</span>的<span class="math inline">\(MLE\)</span>为<span class="math inline">\(1/\bar{x}\)</span>。偏差和标准差的估计如上面所示。</p>
+</div>
+<div id="section-2" class="section level1">
+<h1>3</h1>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>meant <span class="ot">&lt;-</span> <span class="cf">function</span>(x, i){</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">mean</span>(<span class="fu">as.matrix</span>(x[i,])))</span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>}</span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">boot</span>(x, <span class="at">statistic =</span> meant, <span class="at">R =</span> <span class="dv">1000</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>a</span></code></pre></div>
+<pre><code>## 
+## ORDINARY NONPARAMETRIC BOOTSTRAP
+## 
+## 
+## Call:
+## boot(data = x, statistic = meant, R = 1000)
+## 
+## 
+## Bootstrap Statistics :
+##     original   bias    std. error
+## t1* 108.0833 2.103167     37.8332</code></pre>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="fu">boot.ci</span>(a, <span class="at">type =</span> <span class="fu">c</span>(<span class="st">&quot;norm&quot;</span>, <span class="st">&quot;perc&quot;</span>, <span class="st">&quot;basic&quot;</span>, <span class="st">&quot;bca&quot;</span>))</span></code></pre></div>
+<pre><code>## BOOTSTRAP CONFIDENCE INTERVAL CALCULATIONS
+## Based on 1000 bootstrap replicates
+## 
+## CALL : 
+## boot.ci(boot.out = a, type = c(&quot;norm&quot;, &quot;perc&quot;, &quot;basic&quot;, &quot;bca&quot;))
+## 
+## Intervals : 
+## Level      Normal              Basic         
+## 95%   ( 31.8, 180.1 )   ( 23.4, 166.8 )  
+## 
+## Level     Percentile            BCa          
+## 95%   ( 49.3, 192.7 )   ( 54.1, 219.3 )  
+## Calculations and Intervals on Original Scale
+## Some BCa intervals may be unstable</code></pre>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu">hist</span>(a<span class="sc">$</span>t, <span class="at">prob =</span> <span class="cn">TRUE</span>, <span class="at">main =</span> <span class="st">&quot;&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;&quot;</span>)</span></code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+<p>样本并不近似呈现正态分布，因此正态区间和百分位数区间有区别。直方图显示重复样本的分布不对称，且样本量太小，中心极限定理得不到很好近似。BCa区间是一种百分位数类型的置信区间，对偏斜和偏差进行了校正。考虑了分布的不对称性和偏差，BCa区间在样本分布偏斜或样本量较小时，往往能提供更准确的置信区间。</p>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

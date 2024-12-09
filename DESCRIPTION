@@ -1,0 +1,19 @@
+Package: SA24204175
+Type: Package
+Title: two functions
+Version: 0.1.0
+Date: `r Sys.Date()`
+Author: Hao Zhou
+Maintainer: Hao Zhou <zh0711@mail.ustc.edu.cn>
+Description: Several R and Rcpp function are included in this package.
+License: GPL (>= 2)
+Imports: Rcpp, microbenchmark, DAAG,Matrix, boot,bootstrap,coda, flare,glmnet,mvtnorm
+Suggests: knitr, rmarkdown
+LinkingTo: Rcpp
+RoxygenNote: 7.3.2
+Encoding: UTF-8
+VignetteBuilder: knitr
+URL: http://github.com/zhouhaoustc/SA24204175
+BugReports: http://github.com/zhouhaoustc/SA24204175/issues
+NeedsCompilation: yes
+Packaged: `r Sys.Date()`

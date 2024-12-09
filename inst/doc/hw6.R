@@ -1,0 +1,185 @@
+## ----setup, include=FALSE-----------------------------------------------------
+knitr::opts_chunk$set(echo = TRUE)
+
+## -----------------------------------------------------------------------------
+set.seed(1)
+m <- 10000          # 样本总数  
+sigma <- 3          # 标准差  
+x <- numeric(m)     # 初始化样本数组  
+x[1] <- rnorm(1, 0, sigma)  # 初始样本  
+k <- 0              # 拒绝计数  
+u <- runif(m)       # 预先生成均匀随机数  
+  
+for (i in 2:m) {  
+  xt <- x[i - 1]    # 前一个样本  
+  y <- rnorm(1, xt, sigma)  # 从提案分布中生成候选样本  
+    
+  # 计算接受概率（简化形式）  
+  accept_prob <- min(1, (1 + xt^2) / (1 + y^2))  
+    
+  # 根据接受概率决定是否接受候选样本  
+  if (u[i] <= accept_prob) {  
+    x[i] <- y  
+  } else {  
+    x[i] <- xt  
+    k <- k + 1  # 拒绝计数加一  
+  }  
+}  
+  
+print(k)  # 打印拒绝次数  
+  
+# 计算并打印样本的十分位数与标准柯西分布的十分位数  
+p <- seq(0.1, 0.9, 0.1)  
+burn <- 1000  # 丢弃前1000个样本
+xb <- x[(burn + 1):m]  # 丢弃后的样本  
+Q <- quantile(xb, p)  # 计算样本的十分位数  
+round(rbind(Q, qcauchy(p)), 3)  # 与标准柯西分布的十分位数进行比较，并四舍五入到小数点后三位
+
+## -----------------------------------------------------------------------------
+library(coda)
+set.seed(1)
+# Metropolis-Hastings 采样函数  
+metropolis_hastings_chain <- function(n_iter, sigma) {  
+  x <- numeric(n_iter)  
+  x[1] <- rnorm(1, 0, sigma)  # 初始值  
+    
+  for (i in 2:n_iter) {  
+    xt <- x[i - 1]  
+    y <- rnorm(1, xt, sigma)  # 提案值  
+    accept_prob <- min(1, (1 + xt^2) / (1 + y^2))  # 接受概率  
+      
+    if (runif(1) <= accept_prob) {  
+      x[i] <- y  
+    } else {  
+      x[i] <- xt  
+    }  
+  }  
+  return(x)  
+}  
+  
+# 运行多条链并应用 Gelman-Rubin 收敛诊断  
+run_chains_and_diagnose <- function(n_chains, n_iter, burn_in, sigma, target_R = 1.2) {  
+  chains <- list()  
+    
+  # 运行多条链  
+  for (i in 1:n_chains) {  
+    chains[[i]] <- metropolis_hastings_chain(n_iter + burn_in, sigma)  
+    chains[[i]] <- chains[[i]][(burn_in + 1):(n_iter + burn_in)]  
+  }  
+    
+  # 将链转换为 coda 的 mcmc.list 对象  
+  chains_mcmc <- mcmc.list(lapply(chains, mcmc))  
+    
+  # Gelman-Rubin 收敛诊断  
+  gr_diag <- gelman.diag(chains_mcmc)  
+    
+  # 检查收敛性  
+  if (all(gr_diag$psrf[, "Upper C.I."] < target_R)) {  
+    return(chains)  
+  } else {  
+    warning("Chains did not converge. Consider increasing the number of iterations or the number of chains.")  
+    return(NULL)  
+  }  
+}  
+  
+# 设置参数  
+n_chains <- 3   
+n_iter <- 10000    
+burn_in <- 1000    
+sigma <- 3   
+  
+# 运行链并进行收敛诊断  
+converged_chains <- run_chains_and_diagnose(n_chains, n_iter, burn_in, sigma)  
+  
+# 如果收敛，则处理和分析收敛后的样本  
+if (!is.null(converged_chains)) {  
+  p <- seq(0.1, 0.9, 0.1)  
+  Q <- quantile(converged_chains[[1]], p)  
+  round(rbind(Q, qcauchy(p)), 3)
+}
+
+## -----------------------------------------------------------------------------
+set.seed(1)
+# 设置参数
+N <- 10000  # 总迭代次数
+burn <- 2000 
+a <- 2 
+b <- 4 
+n <- 10  # 总的试验次数
+
+# 初始化
+x <- numeric(N)
+y <- numeric(N)
+x[1] <- rbinom(1, n, 0.5)  # 随机初始化x
+y[1] <- rbeta(1, x[1] + a, n - x[1] + b)  # 随机初始化y
+
+# 吉布斯采样
+for (i in 2:N) {
+  x[i] <- rbinom(1, n, y[i - 1])  
+  y[i] <- rbeta(1, x[i] + a, n - x[i] + b)
+}
+xb <- x[(burn + 1):N]
+
+# 计算边际分布的估计值
+f1 <- table(xb) / length(xb)
+
+# 计算真实的边际概率质量函数并比较
+i <- 0:n
+fx <- choose(n, i) * beta(i + a, n - i + b) / beta(a, b)
+round(rbind(f1, fx), 3)
+
+# 绘制结果
+barplot(fx, space = 0, ylim = c(0, 0.15), xlab = "n", main = "p(n)=bar; est=points")
+points(0:n + 0.5, f1)
+
+## -----------------------------------------------------------------------------
+# 设置参数
+N <- 10000    
+burn <- 2000  
+a <- 2
+b <- 4
+n <- 10     
+n_chains <- 3  # 链的数量
+
+run_chains_and_diagnose <- function(n_chains, N, burn,  target_R = 1.2) {
+  # 初始化多个链
+  chains <- list()
+  for (k in 1:n_chains) {
+    x <- numeric(N)
+    y <- numeric(N)
+    x[1] <- rbinom(1, n, 0.5)  # 每条链独立随机初始化x
+    y[1] <- rbeta(1, x[1] + a, n - x[1] + b)  # 随机初始化y
+  
+    # 吉布斯采样
+    for (i in 2:N) {
+      x[i] <- rbinom(1, n, y[i - 1])
+      y[i] <- rbeta(1, x[i] + a, n - x[i] + b)
+    }
+  
+    # 将结果存入链列表
+    chains[[k]] <- x[(burn + 1):N]
+  }
+  # 将链转换为 coda 的 mcmc.list 对象  
+  chains_mcmc <- mcmc.list(lapply(chains, mcmc))  
+    
+  # Gelman-Rubin 收敛诊断  
+  gr_diag <- gelman.diag(chains_mcmc)  
+    
+  # 检查收敛性  
+  if (all(gr_diag$psrf[, "Upper C.I."] < target_R)) {  
+    return(chains)  
+  } else {  
+    warning("Chains did not converge. Consider increasing the number of iterations or the number of chains.")  
+    return(NULL)  
+  }
+}
+converged_chains <- run_chains_and_diagnose(n_chains, N, burn)
+if (!is.null(converged_chains)) {  
+  f1 <- table(converged_chains[[1]]) / length(converged_chains[[1]])
+  i <- 0:n
+  fx <- choose(n, i) * beta(i + a, n - i + b) / beta(a, b) 
+  print(round(rbind(f1, fx), 3))
+  barplot(fx, space = 0, ylim = c(0, 0.15), xlab = "n", main = "p(n)=bar; est=points")
+  points(0:n + 0.5, f1)  
+}
+

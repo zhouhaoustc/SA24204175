@@ -1,0 +1,147 @@
+---
+title: "Homework7"
+author: "Hao Zhou"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Homework7}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# 11.3
+
+## (a)
+
+第k项可分为$a_k=\|a\|^2(k+1),c_k = \frac{1}{k! 2^k (2k+1)(2k+2)} \frac{\Gamma\left(\frac{d+1}{2}\right) \Gamma\left(k + \frac{3}{2}\right)}{\Gamma\left(k + \frac{d}{2} + 1\right)}$
+
+```{r}
+kth <- function(a, k) {
+  # 如果 k 小于 0，则返回 0
+  if (k < 0) {
+    return(0)
+  }
+  
+  # 计算向量 a 的长度
+  d <- length(a)
+  
+  # 计算 a 的欧几里得范数
+  aa <- sum(a * a)
+  
+  # 计算 log(ak) 的值
+  log.ak <- (k + 1) * log(aa)
+  
+  # 计算 log(ck) 的值
+  log.ck <- lgamma((d + 1) / 2) + lgamma(k + 1.5) - lgamma(k + 1) - k * log(2) -
+            log((2 * k + 1) * (2 * k + 2)) - lgamma(k + d / 2 + 1)
+  
+  # 计算 y 的值
+  y <- exp(log.ak + log.ck)
+  
+  # 如果 k 是奇数，则 y 取负值
+  if (k %% 2 != 0) {
+    y <- -y
+  }
+  
+  # 返回最终结果
+  return(y)
+}
+```
+
+## (b)(c)
+
+```{r}
+s <- function(a, K = 60) {
+  if (K < 0) {
+    return(0)
+  }
+  k <- 0:K
+  d <- length(a)
+  aa <- sum(a * a)
+  log.ak <- (k + 1) * log(aa)
+  log.ck <- lgamma((d + 1) / 2) + lgamma(k + 1.5) - lgamma(k + 1) - 
+            k * log(2) - log((2 * k + 1) * (2 * k + 2)) - 
+            lgamma(k + d / 2 + 1)
+  y <- exp(log.ak + log.ck)
+  i <- rep(c(1, -1), length.out = K + 1)
+  z <- sum(i * y)
+  return(min(c(z, sqrt(aa))))
+}
+a <- c(1,2)
+s(a)
+```
+
+# 11.5
+
+分析可知解与11.4中一致
+
+```{r}
+f <- function(a, k) {
+  c1 <- sqrt(a^2 * (k - 1) / (k - a^2))
+  c2 <- sqrt(a^2 * k / (k + 1 - a^2))
+  p1 <- pt(c1, df = k - 1, lower.tail = FALSE)
+  p2 <- pt(c2, df = k, lower.tail = FALSE)
+  return(p1 - p2)
+}
+
+K <- c(4:25, 100, 500, 1000)
+n <- length(K)
+a <- rep(0, n)
+ck <- rep(0, n)
+
+for (i in 1:n) {
+  k <- K[i]
+  u <- uniroot(f, interval = c(1, 2), k = k)
+  a[i] <- u$root
+  ck[i] <-  sqrt(a[i]^2 * k/(k + 1 - a[i]^2))
+}
+cbind(K, a, ck)
+```
+
+# 3
+
+```{r}
+observed_Y <- c(0.54, 0.48, 0.33, 0.43, 1.00, 0.91, 1.00, 0.21, 0.85)
+tau <- 1 
+lambda <- 1 
+tolerance <- 1e-6 
+max_iter <- 1000 
+n <- length(observed_Y)
+censored <- observed_Y == tau
+uncensored <- !censored
+# EM算法
+for (iter in 1:max_iter) {
+  # E步
+  expected_values <- observed_Y
+  expected_values[censored] <- tau + 1 / lambda
+  # M步
+  lambda_new <- n / sum(expected_values)
+  # 判断是否收敛
+  if (abs(lambda - lambda_new) < tolerance) {
+    cat("算法在第", iter, "次迭代时收敛\n")
+    break
+  }
+  # 更新lambda
+  lambda <- lambda_new
+}
+cat("估计的lambda值为:", lambda, "\n")
+```
+
+```{r}
+observed_Y <- c(0.54, 0.48, 0.33, 0.43, 1.00, 1.00, 0.91, 1.00, 0.21, 0.85)
+tau <- 1
+log_likelihood <- function(lambda, Y, tau) {
+  log_lik_uncensored <- sum(dexp(Y[Y <= tau], rate = lambda, log = TRUE))
+  num_censored <- sum(Y > tau)
+  total_log_lik <- log_lik_uncensored + num_censored * log(pexp(tau, rate = lambda))
+  return(-total_log_lik)
+}
+lambda <- 1
+mle_result <- optim(lambda, log_likelihood, Y = observed_Y, tau = tau, method = "L-BFGS-B", lower = 0.0001, upper = 10)
+cat("根据观察数据计算的lambda的MLE:", mle_result$par, "\n")
+```
+

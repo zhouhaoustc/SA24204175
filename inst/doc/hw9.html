@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<meta name="author" content="Hao Zhou" />
+
+<meta name="date" content="2024-12-09" />
+
+<title>Homework9</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Homework9</h1>
+<h4 class="author">Hao Zhou</h4>
+<h4 class="date">2024-12-09</h4>
+
+
+
+<div id="section" class="section level1">
+<h1>1&amp;2</h1>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(Rcpp)</span></code></pre></div>
+<pre><code>## Warning: package &#39;Rcpp&#39; was built under R version 4.3.3</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="co"># R版本的Gibbs采样器</span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>gibbsSamplerR <span class="ot">&lt;-</span> <span class="cf">function</span>(a, b, n, N, x_init) {</span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>  chain <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>, <span class="at">nrow =</span> N, <span class="at">ncol =</span> <span class="dv">2</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>  x <span class="ot">&lt;-</span> x_init</span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>N) {</span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>    y <span class="ot">&lt;-</span> <span class="fu">rbeta</span>(<span class="dv">1</span>, x <span class="sc">+</span> a, n <span class="sc">-</span> x <span class="sc">+</span> b)</span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a>    x <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(<span class="dv">1</span>, n, y)</span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a>    chain[i, ] <span class="ot">&lt;-</span> <span class="fu">c</span>(x, y)</span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a>  }</span>
+<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a>  <span class="fu">return</span>(chain)</span>
+<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a>}</span>
+<span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a></span>
+<span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a><span class="co"># Rcpp实现的Gibbs采样器</span></span>
+<span id="cb3-14"><a href="#cb3-14" tabindex="-1"></a><span class="fu">cppFunction</span>(<span class="st">&#39;</span></span>
+<span id="cb3-15"><a href="#cb3-15" tabindex="-1"></a><span class="st">NumericMatrix gibbsSampler(int a, int b, int n, int N, int x_init) {</span></span>
+<span id="cb3-16"><a href="#cb3-16" tabindex="-1"></a><span class="st">  NumericMatrix chain(N, 2);</span></span>
+<span id="cb3-17"><a href="#cb3-17" tabindex="-1"></a><span class="st">  int x = x_init;</span></span>
+<span id="cb3-18"><a href="#cb3-18" tabindex="-1"></a><span class="st">  double y;</span></span>
+<span id="cb3-19"><a href="#cb3-19" tabindex="-1"></a><span class="st">  for (int i = 0; i &lt; N; i++) {</span></span>
+<span id="cb3-20"><a href="#cb3-20" tabindex="-1"></a><span class="st">    y = R::rbeta(x + a, n - x + b);</span></span>
+<span id="cb3-21"><a href="#cb3-21" tabindex="-1"></a><span class="st">    x = R::rbinom(n, y);</span></span>
+<span id="cb3-22"><a href="#cb3-22" tabindex="-1"></a><span class="st">    chain(i, 0) = x;</span></span>
+<span id="cb3-23"><a href="#cb3-23" tabindex="-1"></a><span class="st">    chain(i, 1) = y;</span></span>
+<span id="cb3-24"><a href="#cb3-24" tabindex="-1"></a><span class="st">  }</span></span>
+<span id="cb3-25"><a href="#cb3-25" tabindex="-1"></a><span class="st">  return chain;</span></span>
+<span id="cb3-26"><a href="#cb3-26" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb3-27"><a href="#cb3-27" tabindex="-1"></a><span class="st">&#39;</span>)</span>
+<span id="cb3-28"><a href="#cb3-28" tabindex="-1"></a></span>
+<span id="cb3-29"><a href="#cb3-29" tabindex="-1"></a><span class="co"># 设置参数</span></span>
+<span id="cb3-30"><a href="#cb3-30" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="dv">3</span></span>
+<span id="cb3-31"><a href="#cb3-31" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="dv">2</span></span>
+<span id="cb3-32"><a href="#cb3-32" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb3-33"><a href="#cb3-33" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
+<span id="cb3-34"><a href="#cb3-34" tabindex="-1"></a>x_init <span class="ot">&lt;-</span> <span class="dv">5</span></span>
+<span id="cb3-35"><a href="#cb3-35" tabindex="-1"></a></span>
+<span id="cb3-36"><a href="#cb3-36" tabindex="-1"></a><span class="co"># 使用R和Rcpp实现采样</span></span>
+<span id="cb3-37"><a href="#cb3-37" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)  </span>
+<span id="cb3-38"><a href="#cb3-38" tabindex="-1"></a>samples_R <span class="ot">&lt;-</span> <span class="fu">gibbsSamplerR</span>(a, b, n, N, x_init)</span>
+<span id="cb3-39"><a href="#cb3-39" tabindex="-1"></a>samples_Rcpp <span class="ot">&lt;-</span> <span class="fu">gibbsSampler</span>(a, b, n, N, x_init)</span>
+<span id="cb3-40"><a href="#cb3-40" tabindex="-1"></a></span>
+<span id="cb3-41"><a href="#cb3-41" tabindex="-1"></a><span class="co"># 提取x和y的采样结果</span></span>
+<span id="cb3-42"><a href="#cb3-42" tabindex="-1"></a>x_R <span class="ot">&lt;-</span> samples_R[, <span class="dv">1</span>]</span>
+<span id="cb3-43"><a href="#cb3-43" tabindex="-1"></a>y_R <span class="ot">&lt;-</span> samples_R[, <span class="dv">2</span>]</span>
+<span id="cb3-44"><a href="#cb3-44" tabindex="-1"></a>x_Rcpp <span class="ot">&lt;-</span> samples_Rcpp[, <span class="dv">1</span>]</span>
+<span id="cb3-45"><a href="#cb3-45" tabindex="-1"></a>y_Rcpp <span class="ot">&lt;-</span> samples_Rcpp[, <span class="dv">2</span>]</span>
+<span id="cb3-46"><a href="#cb3-46" tabindex="-1"></a></span>
+<span id="cb3-47"><a href="#cb3-47" tabindex="-1"></a><span class="co"># 使用qqplot比较生成的随机数</span></span>
+<span id="cb3-48"><a href="#cb3-48" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))  </span>
+<span id="cb3-49"><a href="#cb3-49" tabindex="-1"></a></span>
+<span id="cb3-50"><a href="#cb3-50" tabindex="-1"></a><span class="co"># 比较x的采样</span></span>
+<span id="cb3-51"><a href="#cb3-51" tabindex="-1"></a><span class="fu">qqplot</span>(x_R, x_Rcpp, <span class="at">main =</span> <span class="st">&quot;QQ Plot of x&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;R Samples (x)&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Rcpp Samples (x)&quot;</span>)</span>
+<span id="cb3-52"><a href="#cb3-52" tabindex="-1"></a><span class="fu">abline</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>)</span>
+<span id="cb3-53"><a href="#cb3-53" tabindex="-1"></a></span>
+<span id="cb3-54"><a href="#cb3-54" tabindex="-1"></a><span class="co"># 比较y的采样</span></span>
+<span id="cb3-55"><a href="#cb3-55" tabindex="-1"></a><span class="fu">qqplot</span>(y_R, y_Rcpp, <span class="at">main =</span> <span class="st">&quot;QQ Plot of y&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;R Samples (y)&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Rcpp Samples (y)&quot;</span>)</span>
+<span id="cb3-56"><a href="#cb3-56" tabindex="-1"></a><span class="fu">abline</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>)</span></code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+<p>两个 QQ 图的点沿参考线 <span class="math inline">\(y = x\)</span>
+均匀分布，说明两种实现生成的随机数分布一致。</p>
+</div>
+<div id="section-1" class="section level1">
+<h1>3</h1>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="fu">library</span>(microbenchmark)</span></code></pre></div>
+<pre><code>## Warning: package &#39;microbenchmark&#39; was built under R version 4.3.3</code></pre>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>benchmark_results <span class="ot">&lt;-</span> <span class="fu">microbenchmark</span>(</span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>  <span class="at">R =</span> <span class="fu">gibbsSamplerR</span>(a, b, n, N, x_init),</span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>  <span class="at">Rcpp =</span> <span class="fu">gibbsSampler</span>(a, b, n, N, x_init),</span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a>  <span class="at">times =</span> <span class="dv">10</span>  <span class="co"># 重复测试 10 次</span></span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a>)</span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a><span class="fu">print</span>(benchmark_results)</span></code></pre></div>
+<pre><code>## Unit: microseconds
+##  expr    min     lq    mean  median     uq     max neval cld
+##     R 4769.8 4932.7 5528.30 4979.25 5200.3 10202.0    10  a 
+##  Rcpp  394.8  401.2  549.49  406.95  413.3  1683.4    10   b</code></pre>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="fu">boxplot</span>(benchmark_results, <span class="at">main =</span> <span class="st">&quot;Computation Time Comparison&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Time (ms)&quot;</span>)</span></code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+<p>由结果可看出，Rcpp比R实现快得多，因为纯R的循环和函数调用效率较低。</p>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
